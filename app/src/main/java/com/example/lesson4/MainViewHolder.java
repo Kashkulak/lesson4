@@ -6,16 +6,42 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 public class MainViewHolder extends RecyclerView.ViewHolder {
 
-    TextView textView;
+    TextView modelTV;
+    TextView bodyTV;
+    TextView colorTV;
+    TextView yearTV;
+
+    public ICarListener listener;
+    Car car;
 
     public MainViewHolder(@NonNull View itemView) {
         super(itemView);
-        textView = itemView.findViewById(R.id.vh_text_view);
+        modelTV = itemView.findViewById(R.id.tv_vh_model);
+        bodyTV = itemView.findViewById(R.id.tv_vh_body);
+        colorTV = itemView.findViewById(R.id.tv_vh_color);
+        yearTV = itemView.findViewById(R.id.tv_vh_year);
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCarClick(car);
+            }
+        });
     }
 
-    public void onBind(String text) {
-        textView.setText(text);
+    public void onBind(Car car) {
+        this.car = car;
+        modelTV.setText(car.model);
+        colorTV.setText(car.color);
+        bodyTV.setText(car.body);
+
+        DateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+        yearTV.setText(format.format(car.year));
+
     }
 }
